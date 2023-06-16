@@ -16,6 +16,7 @@ const uniqueAuthors = [...new Set(authors)];
 // Promise Array
 const userCreations = uniqueAuthors.map((author) => {
     const email = author.split(" ").join("") + "gmail.com";
+    const password = email;
     return User.create({ name: author });
 })
 
@@ -49,3 +50,11 @@ for (let postData of data.blogPosts) {
 
 UserModel.find().populate("posts");
 console.log(JSON.stringify(UserModel, null, 4));
+
+
+const noah = await User.findOne({email:"noah.miller@gmail.com"});
+const loginPassword = "noah.miller@gmail.com";
+
+const isPwValid = noah.verifyPassword(loginPassword);
+
+console.log(loginPassword, isPwValid);
