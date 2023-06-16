@@ -5,7 +5,7 @@ const postSchema = new Schema({
     title: String,
     content: String,
     author: [{ type: SchemaTypes.ObjectId, ref: "User" }],
-    tags : String,
+    tags : [String],
 });
 
 export const PostModel = model("Post", postSchema)

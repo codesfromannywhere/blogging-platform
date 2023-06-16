@@ -1,10 +1,11 @@
 import mongoose, { Schema, SchemaTypes, model } from "mongoose";
+import crypto from "crypto";
 
 import { Post } from "./Post.js"
 
 const userSchema = new Schema({
     name: { type: String, require: true },
-    email: { type: String, required: true, unique, lowercase: true },
+    email: { type: String, required: true, unique:true, lowercase: true },
     salt: { type: String, required: true },
     hash: { type: String, required: true },
     posts: [{ type: SchemaTypes.ObjectId, ref: "Post" }],
@@ -18,13 +19,17 @@ userSchema.methods.setPassword = function (password) {
     this.salt = crypto.randomBytes(64).toString("hex");
 
     //Password mit salt hashen
-    this.hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64, "sha512").toString("hex");
+    this.hash = crypto
+        .pbkdf2Sync(password, this.salt, 1000, 64, "sha512")
+        .toString("hex");
 
-userSchema.methods.verifyPassword = function(password){
-    const hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64, "sha512").toString("hex");
+    userSchema.methods.verifyPassword = function (password) {
+        const hash = crypto
+            .pbkdf2Sync(password, this.salt, 1000, 64, "sha512")
+            .toString("hex");
 
-    return this.hash === hash;
-}
+        return this.hash === hash;
+    }
 }
 
 export const UserModel = model("User", userSchema);
