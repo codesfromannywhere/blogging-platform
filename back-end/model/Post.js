@@ -4,8 +4,8 @@ import mongoose, { Schema, model } from "mongoose";
 const postSchema = new Schema({
     title: String,
     content: String,
-    author: String,
-    tags: [{ type: SchemaTypes.ObjectId, ref: Post }],
+    author: [{ type: SchemaTypes.ObjectId, ref: "User" }],
+    tags : String,
 });
 
 export const PostModel = model("Post", postSchema)
