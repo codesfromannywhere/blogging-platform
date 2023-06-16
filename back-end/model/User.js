@@ -1,7 +1,7 @@
 import mongoose, { Schema, SchemaTypes, model } from "mongoose";
 import crypto from "crypto";
 
-import { Post } from "./Post.js"
+// import { Post } from "./Post.js"
 
 const userSchema = new Schema({
     name: { type: String, require: true },
